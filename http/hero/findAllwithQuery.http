@@ -1,0 +1,1 @@
+GET http://localhost:3000/api/heroes?limit=3&offset=1 HTTP/1.1

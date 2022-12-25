@@ -10,6 +10,18 @@ module.exports.createHero = async (req, res, next) => {
   }
 };
 
+module.exports.findAll = async (req, res, next) => {
+  try {
+    const { pagination } = req;
+    const results = await Superhero.findAll({
+      ...pagination
+    });
+    return res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.updateHero = async (req, res, next) => {
   try {
     const {
