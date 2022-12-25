@@ -7,8 +7,8 @@ const heroRouter = Router();
 heroRouter.post('/', HeroController.createHero);
 heroRouter.post('/:heroId', HeroController.updateHero);
 heroRouter.get('/', pagination, HeroController.findAll);
-// heroRouter.get('/:userId', getUserInstance, UserController.findByPk);
-// heroRouter.delete('/:userId', UserController.deleteByPk);
+heroRouter.get('/:heroId', HeroController.findOne);
+heroRouter.delete('/:heroId', HeroController.deleteOne);
 // heroRouter.get('/groups/:userId', UserController.getUserWithGroups);
 
 module.exports = heroRouter;
