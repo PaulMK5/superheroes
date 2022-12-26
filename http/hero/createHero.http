@@ -2,8 +2,9 @@ POST http://localhost:3000/api/heroes HTTP/1.1
 Content-Type: application/json
 
 {
-  "nickname": "Captain America",
-  "realName": "Steve Rogers",
-  "originDesc": "Texas",
-  "catchPhrase": "I'm a Captain America!"
+  "nickname": "Cucu10",
+  "realName": "Lala2",
+  "originDesc": "Miami",
+  "catchPhrase": "I'm a Cucu!",
+  "powers": "fly"
 }
