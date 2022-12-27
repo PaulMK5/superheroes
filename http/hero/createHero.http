@@ -2,9 +2,9 @@ POST http://localhost:3000/api/heroes HTTP/1.1
 Content-Type: application/json
 
 {
-  "nickname": "Cucu10",
-  "realName": "Lala2",
+  "nickname": "Cucu1",
+  "realName": "Lala1",
   "originDesc": "Miami",
-  "catchPhrase": "I'm a Cucu!",
-  "powers": "fly"
+  "catchPhrase": "I'm a Cucu 1!",
+  "powers": ["fly", "jump"]
 }

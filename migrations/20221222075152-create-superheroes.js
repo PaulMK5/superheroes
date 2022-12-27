@@ -11,12 +11,14 @@ module.exports = {
       },
       nickname: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       realName: {
         field: 'real_name',
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       originDesc: {
         field: 'origin_desc',

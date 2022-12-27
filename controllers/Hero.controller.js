@@ -2,10 +2,24 @@ const { Superhero, Superpower } = require('../models');
 
 module.exports.createHero = async (req, res, next) => {
   try {
-    const { body, powers } = req;
+    const {
+      body,
+      powers,
+      body: { nickname }
+    } = req;
+
+    const exists = await Superhero.findOne({
+      where: { nickname }
+    });
+    if (exists) {
+      res.status(208).send(exists);
+    }
+
     const createdHero = await Superhero.create(body);
     if (powers instanceof Superpower) {
       await createdHero.addSuperpower(powers);
+    } else if (Array.isArray(powers)) {
+      await createdHero.addSuperpowers(powers);
     }
     res.status(201).send(createdHero);
   } catch (error) {
