@@ -6,7 +6,7 @@ const { getPowers } = require('../middlewares/power.mv');
 const heroRouter = Router();
 
 heroRouter.post('/', getPowers, HeroController.createHero);
-heroRouter.post('/:heroId', HeroController.updateHero);
+heroRouter.put('/:heroId', getPowers, HeroController.updateHero);
 heroRouter.get('/', pagination, HeroController.findAll);
 heroRouter.get('/:heroId', HeroController.findOne);
 heroRouter.delete('/:heroId', HeroController.deleteOne);

@@ -58,9 +58,10 @@ module.exports.updateHero = async (req, res, next) => {
   try {
     const {
       body,
+      powers,
       params: { heroId }
     } = req;
-    const updatedHero = await Superhero.update(
+    const [rows, [updatedHero]] = await Superhero.update(
       {
         ...body
       },
@@ -71,6 +72,11 @@ module.exports.updateHero = async (req, res, next) => {
         returning: true
       }
     );
+    if (powers instanceof Superpower) {
+      await updatedHero.addSuperpower(powers);
+    } else if (Array.isArray(powers)) {
+      await updatedHero.addSuperpowers(powers);
+    }
     res.status(200).send(updatedHero);
   } catch (error) {
     next(error);
