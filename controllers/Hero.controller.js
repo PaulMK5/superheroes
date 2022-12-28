@@ -99,3 +99,17 @@ module.exports.deleteOne = async (req, res, next) => {
     next(error);
   }
 };
+
+module.exports.addImage = async (req, res, next) => {
+  try {
+    const {
+      params: { heroId },
+      file: { filename }
+    } = req;
+
+    const heroInstance = await Superhero.findByPk(heroId);
+    // heroInstance.addImages();
+  } catch (error) {
+    next(error);
+  }
+};
