@@ -72,12 +72,14 @@ module.exports.updateHero = async (req, res, next) => {
         returning: true
       }
     );
-    if (powers instanceof Superpower) {
-      await updatedHero.addSuperpower(powers);
-    } else if (Array.isArray(powers)) {
-      await updatedHero.addSuperpowers(powers);
-    }
-    res.status(200).send(updatedHero);
+
+    await updatedHero.addSuperpowers(powers);
+    const heroWithPowers = await Superhero.findAll({
+      where: { nickname: updatedHero.nickname },
+      include: Superpower
+    });
+
+    res.status(200).send(heroWithPowers);
   } catch (error) {
     next(error);
   }
