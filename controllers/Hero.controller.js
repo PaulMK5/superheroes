@@ -17,7 +17,11 @@ module.exports.createHero = async (req, res, next) => {
 
     const createdHero = await Superhero.create(body);
     await createdHero.addSuperpowers(powers);
-    res.status(201).send(createdHero);
+    const hero = await Superhero.findOne({
+      where: { nickname: createdHero.nickname },
+      include: Superpower
+    });
+    res.status(201).send(hero);
   } catch (error) {
     next(error);
   }
@@ -28,7 +32,7 @@ module.exports.findAll = async (req, res, next) => {
     const { pagination } = req;
     const results = await Superhero.findAll({
       ...pagination,
-      include: [{ model: Superpower }]
+      include: Superpower
     });
     return res.status(200).send(results);
   } catch (error) {
