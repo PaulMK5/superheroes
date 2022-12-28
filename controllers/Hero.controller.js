@@ -16,11 +16,7 @@ module.exports.createHero = async (req, res, next) => {
     }
 
     const createdHero = await Superhero.create(body);
-    if (powers instanceof Superpower) {
-      await createdHero.addSuperpower(powers);
-    } else if (Array.isArray(powers)) {
-      await createdHero.addSuperpowers(powers);
-    }
+    await createdHero.addSuperpowers(powers);
     res.status(201).send(createdHero);
   } catch (error) {
     next(error);
@@ -46,7 +42,7 @@ module.exports.findOne = async (req, res, next) => {
       params: { heroId }
     } = req;
     const hero = await Superhero.findByPk(heroId, {
-      include: [{ model: Superpower }]
+      include: Superpower
     });
     return res.status(200).send(hero);
   } catch (error) {
@@ -58,7 +54,6 @@ module.exports.updateHero = async (req, res, next) => {
   try {
     const {
       body,
-      powers,
       params: { heroId }
     } = req;
     const [rows, [updatedHero]] = await Superhero.update(
@@ -73,13 +68,11 @@ module.exports.updateHero = async (req, res, next) => {
       }
     );
 
-    await updatedHero.addSuperpowers(powers);
-    const heroWithPowers = await Superhero.findAll({
-      where: { nickname: updatedHero.nickname },
+    const hero = await Superhero.findByPk(heroId, {
       include: Superpower
     });
 
-    res.status(200).send(heroWithPowers);
+    res.status(200).send(hero);
   } catch (error) {
     next(error);
   }
