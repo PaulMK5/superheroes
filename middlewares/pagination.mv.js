@@ -1,4 +1,4 @@
-const MAX_LIMIT = 5;
+const MAX_LIMIT = 10;
 
 module.exports = async (req, res, next) => {
   try {
@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
 
     if (!limit && !offset) {
       req.pagination = {
-        limit: 2,
+        limit: 5,
         offset: 0
       };
     } else {

@@ -1,4 +1,4 @@
-const { Superhero, Superpower } = require('../models');
+const { Superhero, Superpower, Image } = require('../models');
 
 module.exports.createHero = async (req, res, next) => {
   try {
@@ -32,7 +32,7 @@ module.exports.findAll = async (req, res, next) => {
     const { pagination } = req;
     const results = await Superhero.findAll({
       ...pagination,
-      include: Superpower
+      include: [Superpower, Image]
     });
     return res.status(200).send(results);
   } catch (error) {
@@ -46,7 +46,7 @@ module.exports.findOne = async (req, res, next) => {
       params: { heroId }
     } = req;
     const hero = await Superhero.findByPk(heroId, {
-      include: Superpower
+      include: [Superpower, Image]
     });
     return res.status(200).send(hero);
   } catch (error) {
@@ -73,9 +73,8 @@ module.exports.updateHero = async (req, res, next) => {
     );
 
     const hero = await Superhero.findByPk(heroId, {
-      include: Superpower
+      include: [Superpower, Image]
     });
-
     res.status(200).send(hero);
   } catch (error) {
     next(error);
@@ -100,15 +99,21 @@ module.exports.deleteOne = async (req, res, next) => {
   }
 };
 
-module.exports.addImage = async (req, res, next) => {
+module.exports.addImages = async (req, res, next) => {
   try {
     const {
       params: { heroId },
-      file: { filename }
+      files
     } = req;
 
-    const heroInstance = await Superhero.findByPk(heroId);
-    // heroInstance.addImages();
+    const imgArray = files.map(el => ({ path: el.filename, heroId: heroId }));
+
+    await Image.bulkCreate(imgArray, { validate: true });
+
+    const hero = await Superhero.findByPk(heroId, {
+      include: [Superpower, Image]
+    });
+    res.status(200).send(hero);
   } catch (error) {
     next(error);
   }

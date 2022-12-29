@@ -31,6 +31,10 @@ heroRouter.put(
 heroRouter.get('/', pagination, HeroController.findAll);
 heroRouter.get('/:heroId', HeroController.findOne);
 heroRouter.delete('/:heroId', HeroController.deleteOne);
-heroRouter.post('/:heroId', upload.single('image'), HeroController.addImage);
+heroRouter.post(
+  '/:heroId',
+  upload.array('images', 6),
+  HeroController.addImages
+);
 
 module.exports = heroRouter;
