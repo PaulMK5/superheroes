@@ -77,10 +77,10 @@ module.exports.deleteOne = async (req, res, next) => {
       params: { heroId }
     } = req;
     const deleted = await Superhero.destroy({
-      where: { heroId }
+      where: { id: heroId }
     });
     if (deleted) {
-      return res.status(200).send(deleted);
+      return res.status(200).send('Hero deleted');
     } else {
       return res.status(204).send();
     }
