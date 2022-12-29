@@ -60,17 +60,7 @@ module.exports.updateHero = async (req, res, next) => {
       body,
       params: { heroId }
     } = req;
-    const [rows, [updatedHero]] = await Superhero.update(
-      {
-        ...body
-      },
-      {
-        where: {
-          id: heroId
-        },
-        returning: true
-      }
-    );
+    await Superhero.update({ ...body }, { where: { id: heroId } });
 
     const hero = await Superhero.findByPk(heroId, {
       include: [Superpower, Image]
