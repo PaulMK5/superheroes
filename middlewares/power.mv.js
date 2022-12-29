@@ -1,6 +1,5 @@
 const { Superpower, Superhero } = require('../models');
 const { Op } = require('sequelize');
-// const HeroError = require('../errors/HeroError');
 
 module.exports.updatePowersList = async (req, res, next) => {
   try {
