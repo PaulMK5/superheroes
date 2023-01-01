@@ -32,12 +32,14 @@ module.exports.updateHeroPowers = async (req, res, next) => {
     params: { heroId }
   } = req;
 
-  const heroInstance = await Superhero.findByPk(heroId);
-  const heroPowersInst = await heroInstance.getSuperpowers();
+  const heroInstance = await Superhero.findByPk(heroId, {
+    include: Superpower
+  });
+  const { Superpowers } = heroInstance;
 
-  if (heroPowersInst.length !== powers.length) {
-    if (heroPowersInst.length > 0) {
-      await heroInstance.removeSuperpowers(heroPowersInst);
+  if (Superpowers.length !== powers.length) {
+    if (Superpowers.length > 0) {
+      await heroInstance.removeSuperpowers(Superpowers);
     }
     if (powers.length > 0) {
       const newPowers = await Superpower.findAll({
@@ -48,11 +50,11 @@ module.exports.updateHeroPowers = async (req, res, next) => {
     } else {
       next();
     }
-  } else if (heroPowersInst.length === powers.length) {
-    const heroPowersArray = heroPowersInst.map(elem => elem.dataValues.name);
+  } else if (Superpowers.length === powers.length) {
+    const heroPowersArray = Superpowers.map(elem => elem.dataValues.name);
     const filtered = powers.filter(elem => !heroPowersArray.includes(elem));
     if (filtered.length > 0) {
-      await heroInstance.removeSuperpowers(heroPowersInst);
+      await heroInstance.removeSuperpowers(Superpowers);
       const newPowers = await Superpower.findAll({
         where: { name: { [Op.in]: powersArray } }
       });
